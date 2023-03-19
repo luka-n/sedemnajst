@@ -18,5 +18,9 @@ module Sedemnajst
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.autoload_paths << Rails.root.join("app/libs")
+
+    config.mn3njalnik = config_for(:mn3njalnik)
   end
 end

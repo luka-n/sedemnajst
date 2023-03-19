@@ -1,0 +1,16 @@
+default: &default
+  username: LordFebo
+  password: lordbebo
+  forums_to_sync:
+    - 21
+  chatrooms_to_sync:
+    - 1
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
