@@ -1,0 +1,11 @@
+<h1><%= @user.name %></h1>
+
+<h2>Teme</h2>
+
+<ul>
+  <% @topics.each do |topic| %>
+    <li><%= link_to topic.title, topic %></li>
+  <% end %>
+</ul>
+
+<%= paginate @topics %>

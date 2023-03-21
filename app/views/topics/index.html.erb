@@ -1,0 +1,14 @@
+<%= paginate @topics %>
+
+<table class="table table-striped">
+  <tbody>
+    <% @topics.each do |topic| %>
+      <tr>
+        <td><%= link_to topic.user.name, topic.user %></td>
+        <td><%= link_to topic.title, topic %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @topics %>

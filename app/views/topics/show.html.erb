@@ -1,0 +1,16 @@
+<h1><%= @topic.title %></h1>
+
+<%= paginate @posts %>
+
+<table class="table table-striped">
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr>
+        <td class="text-nowrap"><%= link_to post.user.name, post.user %></td>
+        <td><%= post.content.html_safe %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @posts %>
