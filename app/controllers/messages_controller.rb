@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
     @messages =
       Message
         .preload(:user)
-        .order(posted_at: :desc)
+        .order(remote_created_at: :desc)
         .page(params[:page]).per(50)
   end
 end

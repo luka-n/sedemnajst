@@ -42,7 +42,7 @@ class Mn3njalnikSync
             remote_id: remote_message.attrs[:id],
             user_id: local_user.id,
             content: remote_message.attrs[:content],
-            posted_at: remote_message.attrs[:posted_at]
+            remote_created_at: remote_message.attrs[:created_at]
           )
         end
       end
@@ -60,7 +60,7 @@ class Mn3njalnikSync
       local_topic.forum = local_forum
       local_topic.user = local_user
 
-      local_topic.posted_at = remote_topic.attrs[:posted_at]
+      local_topic.remote_created_at = remote_topic.attrs[:created_at]
       local_topic.title = remote_topic.attrs[:title]
     end
 
@@ -73,7 +73,7 @@ class Mn3njalnikSync
         local_post.user = local_user
 
         local_post.content = remote_post.attrs[:content]
-        local_post.posted_at = remote_post.attrs[:posted_at]
+        local_post.remote_created_at = remote_post.attrs[:created_at]
       end
     end
   end

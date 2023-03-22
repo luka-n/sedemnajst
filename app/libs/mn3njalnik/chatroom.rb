@@ -39,7 +39,7 @@ module Mn3njalnik
                 user_id: message["chatterID"].to_i,
                 user_name: message["chatterName"],
                 content: message["content"],
-                posted_at: parse_time(message["time"])
+                created_at: parse_time(message["time"])
               )
             )
             throw :done unless ret

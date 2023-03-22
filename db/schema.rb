@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_16_234000) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_22_080652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_16_234000) do
     t.bigint "chatroom_id", null: false
     t.bigint "user_id", null: false
     t.text "content", null: false
-    t.datetime "posted_at", null: false
+    t.datetime "remote_created_at", null: false
     t.bigint "remote_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -47,7 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_16_234000) do
     t.bigint "topic_id", null: false
     t.bigint "user_id", null: false
     t.text "content", null: false
-    t.datetime "posted_at", null: false
+    t.datetime "remote_created_at", null: false
     t.bigint "remote_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_16_234000) do
     t.bigint "forum_id", null: false
     t.bigint "user_id", null: false
     t.string "title", null: false
-    t.datetime "posted_at", null: false
+    t.datetime "remote_created_at", null: false
     t.bigint "remote_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

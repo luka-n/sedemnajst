@@ -12,7 +12,7 @@ class TopicsController < ApplicationController
     @posts =
       @topic.posts
         .preload(:user)
-        .order(:posted_at)
+        .order(:remote_created_at)
         .page(params[:page]).per(30)
   end
 end

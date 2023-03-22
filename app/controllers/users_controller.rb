@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
     @posts =
       @user.posts
-        .order(:posted_at)
+        .order(:remote_created_at)
         .page(params[:page]).per(10)
 
     @topics =

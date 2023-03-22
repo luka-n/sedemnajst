@@ -23,7 +23,7 @@ module Mn3njalnik
           content = post_row.search("[data-role=commentContent]")[0].children.map(&:to_html).join
           user_id = user_link.attr(:href).split("/")[-1].split("-")[0].to_i
           user_name = user_link.attr(:title)[16..]
-          posted_at = Time.zone.iso8601(time.attr("datetime"))
+          created_at = Time.zone.iso8601(time.attr("datetime"))
 
           posts << Post.new(
             @connection,
@@ -32,7 +32,7 @@ module Mn3njalnik
             content: content,
             user_id: user_id,
             user_name: user_name,
-            posted_at: posted_at
+            created_at: created_at
           )
         end
 

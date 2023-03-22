@@ -24,7 +24,7 @@ module Mn3njalnik
           url = link.attr(:href)
           user_id = user_link.attr(:href).split("/")[-1].split("-")[0].to_i
           user_name = user_link.attr(:title)[16..]
-          posted_at = Time.zone.iso8601(time.attr(:datetime))
+          created_at = Time.zone.iso8601(time.attr(:datetime))
 
           topics << Topic.new(
             @connection,
@@ -34,7 +34,7 @@ module Mn3njalnik
             url: url,
             user_id: user_id,
             user_name: user_name,
-            posted_at: posted_at
+            created_at: created_at
           )
         end
 
