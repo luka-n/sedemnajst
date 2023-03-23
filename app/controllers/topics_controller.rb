@@ -2,8 +2,8 @@ class TopicsController < ApplicationController
   def index
     @topics =
       Topic
-        .preload(:user)
-        .order(remote_id: :desc)
+        .preload(:user, last_post: :user)
+        .order(last_post_remote_created_at: :desc)
         .page(params[:page]).per(50)
   end
 

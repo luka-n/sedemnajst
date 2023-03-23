@@ -1,9 +1,24 @@
 <%= paginate @users %>
 
-<ul>
-  <% @users.each do |user| %>
-    <li><%= link_to user.name, user %></li>
-  <% end %>
-</ul>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Kognomen</th>
+      <th>Postov</th>
+      <th>Tem</th>
+      <th>IG vrstic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.name, user %></td>
+        <td class="text-nowrap"><%= user.posts_count %></td>
+        <td class="text-nowrap"><%= user.topics_count %></td>
+        <td class="text-nowrap"><%= user.messages_count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= paginate @users %>

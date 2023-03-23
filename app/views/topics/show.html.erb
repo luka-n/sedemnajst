@@ -6,7 +6,11 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-        <td class="text-nowrap"><%= link_to post.user.name, post.user %></td>
+        <td class="text-nowrap">
+          <%= link_to post.user.name, post.user %>
+          <br>
+          <%= format_time post.remote_created_at %>
+        </td>
         <td><%= post.content.html_safe %></td>
       </tr>
     <% end %>

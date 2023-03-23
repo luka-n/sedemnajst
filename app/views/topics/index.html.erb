@@ -1,11 +1,29 @@
 <%= paginate @topics %>
 
 <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Prvi</th>
+      <th>Titula</th>
+      <th>Replik</th>
+      <th>Zadnji</th>
+    </tr>
+  </thead>
   <tbody>
     <% @topics.each do |topic| %>
       <tr>
-        <td><%= link_to topic.user.name, topic.user %></td>
+        <td class="text-nowrap">
+          <%= link_to topic.user.name, topic.user %>
+          <br>
+          <%= format_time topic.remote_created_at %>
+        </td>
         <td><%= link_to topic.title, topic %></td>
+        <td class="text-nowrap"><%= topic.posts_count %></td>
+        <td class="text-nowrap">
+          <%= link_to topic.last_post.user.name, topic.last_post.user %>
+          <br>
+          <%= format_time topic.last_post.remote_created_at %>
+        </td>
       </tr>
     <% end %>
   </tbody>

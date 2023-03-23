@@ -6,14 +6,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    @posts =
-      @user.posts
-        .order(:remote_created_at)
-        .page(params[:page]).per(10)
-
     @topics =
       @user.topics
-        .order(remote_id: :desc)
+        .order(:remote_created_at)
         .page(params[:page]).per(10)
   end
 end
