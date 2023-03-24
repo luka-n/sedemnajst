@@ -3,10 +3,10 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Prvi</th>
-      <th>Titula</th>
-      <th>Replik</th>
-      <th>Zadnji</th>
+      <th><%= sortable "remote_created_at", "Prvi" %></th>
+      <th><%= sortable "title", "Titula" %></th>
+      <th><%= sortable "posts_count", "Replik" %></th>
+      <th><%= sortable "last_post_remote_created_at", "Zadnji" %></th>
     </tr>
   </thead>
   <tbody>
