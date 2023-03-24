@@ -1,0 +1,8 @@
+sl:
+  views:
+    pagination:
+      first: "&laquo; Prvi"
+      last: "Zadnji &raquo;"
+      previous: "&lsaquo; Prejšnji"
+      next: "Drugovi &rsaquo;"
+      truncate: "&hellip;"

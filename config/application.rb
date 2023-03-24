@@ -21,6 +21,8 @@ module Sedemnajst
 
     config.autoload_paths << Rails.root.join("app/libs")
 
+    config.i18n.default_locale = :sl
+
     config.mn3njalnik = config_for(:mn3njalnik)
   end
 end
