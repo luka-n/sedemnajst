@@ -39,11 +39,9 @@ module Mn3njalnik
         next_page_link =
           page.search(".cTopic li:not(.ipsPagination_inactive) a[rel=next]")[0]
 
-        if next_page_link
-          url = next_page_link.attr(:href)
-        else
-          break
-        end
+        break unless next_page_link
+
+        url = next_page_link.attr(:href)
       end
 
       posts

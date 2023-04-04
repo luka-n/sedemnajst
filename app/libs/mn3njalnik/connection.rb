@@ -2,9 +2,9 @@ module Mn3njalnik
   class Connection
     attr_reader :agent, :csrf_key
 
-    BASE_URL = "https://mn3njalnik.com"
-    LOGIN_URL = "#{BASE_URL}/index.php?/login/"
-    LOGIN_FORM_ACTION_URL = "#{BASE_URL}/index.php?/login/"
+    BASE_URL = "https://mn3njalnik.com".freeze
+    LOGIN_URL = "#{BASE_URL}/index.php?/login/".freeze
+    LOGIN_FORM_ACTION_URL = "#{BASE_URL}/index.php?/login/".freeze
 
     def initialize
       @agent = Mechanize.new

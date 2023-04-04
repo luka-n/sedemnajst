@@ -18,10 +18,10 @@ class Mn3njalnikSync
         local_forum.name = remote_forum.attrs[:name]
       end
 
-      if Rails.configuration.mn3njalnik.forums_to_sync.include?(remote_forum.attrs[:id])
-        remote_forum.topics.each do |remote_topic|
-          sync_topic(remote_topic)
-        end
+      next unless Rails.configuration.mn3njalnik.forums_to_sync.include?(remote_forum.attrs[:id])
+
+      remote_forum.topics.each do |remote_topic|
+        sync_topic(remote_topic)
       end
     end
   end

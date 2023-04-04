@@ -12,7 +12,7 @@ class TopicsController < ApplicationController
     @topics =
       Topic
         .preload(:user, last_post: :user)
-        .order("#@sort_column #@sort_direction")
+        .order("#{@sort_column} #{@sort_direction}")
         .page(params[:page]).per(50)
   end
 

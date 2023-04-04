@@ -1,0 +1,48 @@
+AllCops:
+  Exclude:
+    - bin/*
+    - db/schema.rb
+    - db/migrate/20230322092746_create_triggers_multiple_tables.rb
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+Style/ParallelAssignment:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+Style/RedundantFetchBlock:
+  Enabled: false
+
+Style/MultilineTernaryOperator:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false

@@ -45,11 +45,9 @@ module Mn3njalnik
             throw :done unless ret
           end
 
-          if data["noMore"] == "1"
-            break
-          else
-            last_id = data["content"][0]["id"].to_i
-          end
+          break if data["noMore"] == "1"
+
+          last_id = data["content"][0]["id"].to_i
         end
       end
     end

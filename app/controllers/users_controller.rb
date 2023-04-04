@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
     @users =
       User
-        .order("#@sort_column #@sort_direction")
+        .order("#{@sort_column} #{@sort_direction}")
         .page(params[:page]).per(30)
   end
 
