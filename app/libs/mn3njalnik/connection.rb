@@ -5,6 +5,7 @@ module Mn3njalnik
     BASE_URL = "https://mn3njalnik.com".freeze
     LOGIN_URL = "#{BASE_URL}/index.php?/login/".freeze
     LOGIN_FORM_ACTION_URL = "#{BASE_URL}/index.php?/login/".freeze
+    USER_URL = "#{BASE_URL}/index.php?/profile/%d-foo".freeze
 
     def initialize
       @agent = Mechanize.new
@@ -47,6 +48,12 @@ module Mn3njalnik
 
     def get_chatroom(remote_id)
       Chatroom.new(self, id: remote_id)
+    end
+
+    def user(id)
+      page = @agent.get(USER_URL % id)
+      name = page.search("h1")[0].children[0].text.strip
+      User.new(self, id: id, name: name)
     end
   end
 end
