@@ -1,0 +1,11 @@
+<%= form_with url: session_path, method: :post do |f| %>
+  <div class="mb-3">
+    <%= f.label :"user[name]", "Uporabnik", class: "form-label" %>
+    <%= f.text_field :"user[name]", class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :"user[password]", "Geslo", class: "form-label" %>
+    <%= f.password_field :"user[password]", class: "form-control" %>
+  </div>
+  <%= f.submit "Vstopi", class: "btn btn-primary" %>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_22_092746) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_27_224918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -81,6 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_092746) do
     t.integer "messages_count", default: 0, null: false
     t.integer "posts_count", default: 0, null: false
     t.integer "topics_count", default: 0, null: false
+    t.string "password_digest"
     t.index ["remote_id"], name: "index_users_on_remote_id", unique: true
   end
 
