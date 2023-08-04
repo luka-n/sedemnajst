@@ -77,4 +77,22 @@ class Mn3njalnikSync
       end
     end
   end
+
+  def sync_users
+    User.find_each do |user|
+      sync_user(user) unless user.avatar.attached?
+    end
+  end
+
+  def sync_user(user)
+    remote_user = @cnx.user(user.remote_id)
+
+    avatar = remote_user.download_avatar
+    return unless avatar
+
+    user.avatar.attach(
+      io: avatar,
+      filename: File.basename(remote_user.attrs[:avatar_url])
+    )
+  end
 end

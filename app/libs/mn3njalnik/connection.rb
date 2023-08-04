@@ -53,7 +53,8 @@ module Mn3njalnik
     def user(id)
       page = @agent.get(USER_URL % id)
       name = page.search("h1")[0].children[0].text.strip
-      User.new(self, id: id, name: name)
+      avatar_url = page.search(".ipsUserPhoto_xlarge")[0][:href]
+      User.new(self, id: id, name: name, avatar_url: avatar_url)
     end
   end
 end

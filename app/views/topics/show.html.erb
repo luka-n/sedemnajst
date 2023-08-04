@@ -9,6 +9,8 @@
         <td class="text-nowrap">
           <%= link_to post.user.name, post.user %>
           <br>
+          <img src="<%= url_for(post.user.avatar.variant(:large)) if post.user.avatar.attached? %>">
+          <br>
           <%= format_time post.remote_created_at %>
         </td>
         <td><%= post.content.html_safe %></td>

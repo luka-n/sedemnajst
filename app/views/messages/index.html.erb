@@ -4,7 +4,10 @@
   <tbody>
     <% @messages.each do |message| %>
       <tr>
-        <td class="text-nowrap"><%= link_to message.user.name, message.user %></td>
+        <td class="text-nowrap">
+          <img src="<%= url_for(message.user.avatar.variant(:tiny)) if message.user.avatar.attached? %>">
+          <%= link_to message.user.name, message.user %>
+        </td>
         <td><%= message.content %></td>
         <td class="text-nowrap"><%= format_time message.remote_created_at %></td>
       </tr>

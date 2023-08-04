@@ -1,5 +1,7 @@
 <h1><%= @user.name %></h1>
 
+<img src="<%= url_for(@user.avatar.variant(:large)) if @user.avatar.attached? %>">
+
 <dl>
   <dt>Postov</dt>
   <dd><%= @user.posts_count %></dd>

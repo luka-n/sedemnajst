@@ -3,6 +3,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th></th>
       <th><%= sortable "name", "Kognomen" %></th>
       <th><%= sortable "posts_count", "Postov" %></th>
       <th><%= sortable "topics_count", "Tem" %></th>
@@ -12,6 +13,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td><img src="<%= url_for(user.avatar.variant(:small)) if user.avatar.attached? %>"></td>
         <td><%= link_to user.name, user %></td>
         <td class="text-nowrap"><%= user.posts_count %></td>
         <td class="text-nowrap"><%= user.topics_count %></td>
