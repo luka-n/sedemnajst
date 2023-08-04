@@ -1,6 +1,6 @@
 <%= paginate @topics %>
 
-<table class="table table-striped">
+<table class="table table-bordered table-striped">
   <thead>
     <tr>
       <th><%= sortable "remote_created_at", "Prvi" %></th>
@@ -9,19 +9,19 @@
       <th><%= sortable "last_post_remote_created_at", "Zadnji" %></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="table-group-divider">
     <% @topics.each do |topic| %>
       <tr>
-        <td class="text-nowrap">
+        <td class="align-middle text-nowrap">
           <%= link_to topic.user.name, topic.user %>
           <br>
           <img src="<%= url_for(topic.user.avatar.variant(:small)) if topic.user.avatar.attached? %>">
           <br>
           <%= format_time topic.remote_created_at %>
         </td>
-        <td><%= link_to topic.title, topic %></td>
-        <td class="text-nowrap"><%= topic.posts_count %></td>
-        <td class="text-nowrap">
+        <td class="align-middle fw-bold"><%= link_to topic.title, topic %></td>
+        <td class="align-middle text-nowrap"><%= topic.posts_count %></td>
+        <td class="align-middle text-nowrap">
           <%= link_to topic.last_post.user.name, topic.last_post.user %>
           <br>
           <img src="<%= url_for(topic.last_post.user.avatar.variant(:small)) if topic.last_post.user.avatar.attached? %>">

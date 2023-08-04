@@ -1,2 +1,38 @@
+$yellow-0: #ebb905;
+$yellow-1: #ffe495;
+$yellow-2: #ffeebb;
+
+$primary: $yellow-0;
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+$link-color:      $dark;
+$link-decoration: none;
+
+$link-hover-color:      $dark;
+$link-hover-decoration: underline;
+
+$pagination-color:        $light;
+$pagination-bg:           $gray-700;
+$pagination-border-color: $dark;
+
+$pagination-active-color:        $dark;
+$pagination-active-bg:           $yellow-1;
+$pagination-active-border-color: $dark;
+
+$pagination-hover-color:        $dark;
+$pagination-hover-bg:           $yellow-2;
+$pagination-hover-border-color: $dark;
+
+$table-bg:           $yellow-1;
+$table-striped-bg:   $yellow-2;
+$table-border-color: $gray-600;
+
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+
+.turbo-progress-bar {
+    background-color: $primary;
+}
