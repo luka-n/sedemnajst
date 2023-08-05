@@ -55,6 +55,12 @@ module Mn3njalnik
       name = page.search("h1")[0].children[0].text.strip
       avatar_url = page.search(".ipsUserPhoto_xlarge")[0][:href]
       User.new(self, id: id, name: name, avatar_url: avatar_url)
+    rescue Mechanize::ResponseCodeError => e
+      if e.response_code == "404"
+        return nil
+      else
+        raise e
+      end
     end
   end
 end

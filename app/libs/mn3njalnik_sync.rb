@@ -86,6 +86,7 @@ class Mn3njalnikSync
 
   def sync_user(user)
     remote_user = @cnx.user(user.remote_id)
+    return unless remote_user
 
     avatar = remote_user.download_avatar
     return unless avatar
