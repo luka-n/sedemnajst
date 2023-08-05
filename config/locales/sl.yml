@@ -3,6 +3,6 @@ sl:
     pagination:
       first: "&laquo; Prvi"
       last: "Zadnji &raquo;"
-      previous: "&lsaquo; Prejšnji"
+      previous: "&lsaquo; Prejsnji"
       next: "Drugovi &rsaquo;"
       truncate: "&hellip;"
