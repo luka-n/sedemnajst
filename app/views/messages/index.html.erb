@@ -1,7 +1,14 @@
 <%= paginate @messages %>
 
 <table class="table table-bordered table-sm table-striped">
-  <tbody>
+  <thead>
+    <tr>
+      <th>Kdo</th>
+      <th>Zakaj</th>
+      <th><%= sortable "remote_created_at", "Kdaj" %></th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
     <% @messages.each do |message| %>
       <tr>
         <td class="align-middle text-nowrap">
