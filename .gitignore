@@ -36,3 +36,5 @@
 /node_modules
 
 /config/mn3njalnik.yml
+
+/vendor/*
