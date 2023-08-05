@@ -13,20 +13,20 @@
     <% @topics.each do |topic| %>
       <tr>
         <td class="align-middle text-nowrap">
-          <%= link_to topic.user.name, topic.user %>
+          <span class="fw-bold"><%= link_to topic.user.name, topic.user %></span>
           <br>
           <img src="<%= url_for(topic.user.avatar.variant(:small)) if topic.user.avatar.attached? %>">
           <br>
-          <%= format_time topic.remote_created_at %>
+          <span class="text-muted"><%= format_time topic.remote_created_at %></span>
         </td>
         <td class="align-middle fw-bold"><%= link_to topic.title, topic %></td>
         <td class="align-middle text-nowrap"><%= topic.posts_count %></td>
         <td class="align-middle text-nowrap">
-          <%= link_to topic.last_post.user.name, topic.last_post.user %>
+          <span class="fw-bold"><%= link_to topic.last_post.user.name, topic.last_post.user %></span>
           <br>
           <img src="<%= url_for(topic.last_post.user.avatar.variant(:small)) if topic.last_post.user.avatar.attached? %>">
           <br>
-          <%= format_time topic.last_post.remote_created_at %>
+          <span class="text-muted"><%= format_time topic.last_post.remote_created_at %></span>
         </td>
       </tr>
     <% end %>

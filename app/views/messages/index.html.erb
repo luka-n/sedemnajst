@@ -13,10 +13,10 @@
       <tr>
         <td class="align-middle text-nowrap">
           <img src="<%= url_for(message.user.avatar.variant(:tiny)) if message.user.avatar.attached? %>">
-          <%= link_to message.user.name, message.user %>
+          <span class="fw-bold"><%= link_to message.user.name, message.user %></span>
         </td>
         <td class="align-middle"><%= message.content %></td>
-        <td class="align-middle text-nowrap"><%= format_time message.remote_created_at %></td>
+        <td class="align-middle text-muted text-nowrap"><%= format_time message.remote_created_at %></td>
       </tr>
     <% end %>
   </tbody>
