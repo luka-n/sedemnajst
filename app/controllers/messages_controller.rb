@@ -1,18 +1,10 @@
 class MessagesController < ApplicationController
   def index
-    @sort_column =
-      %w[remote_created_at]
-        .include?(params[:sort]) ?
-        params[:sort] : "remote_created_at"
-
-    @sort_direction =
-      %w[asc desc].include?(params[:sort_direction]) ?
-        params[:sort_direction] : "desc"
-
+    @q = Message.ransack(params[:q])
+    @q.sorts = "remote_created_at desc" if @q.sorts.empty?
     @messages =
-      Message
+      @q.result(distinct: true)
         .preload(:user)
-        .order("#{@sort_column} #{@sort_direction}")
         .page(params[:page]).per(30)
   end
 end

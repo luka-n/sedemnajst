@@ -32,6 +32,21 @@ $table-border-color: $gray-600;
 
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+@import 'bootstrap-select/sass/bootstrap-select';
+@import 'daterangepicker/daterangepicker';
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: $primary;
+}
+
+.daterangepicker .ranges li.active {
+    background-color: $primary;
+}
+
+.monthselect, .yearselect {
+    @extend .form-select;
+    display: inline-block;
+}
 
 .turbo-progress-bar {
     background-color: $primary;

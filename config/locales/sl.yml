@@ -1,8 +1,17 @@
 sl:
   views:
     pagination:
-      first: "&laquo; Prvi"
-      last: "Zadnji &raquo;"
-      previous: "&lsaquo; Prejsnji"
-      next: "Drugovi &rsaquo;"
+      first: "&laquo;"
+      last: "&raquo;"
+      previous: "&lsaquo;"
+      next: "&rsaquo;"
       truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "Tu ni nic za videti"
+          one: "Kazem eno stvar"
+          other: "Kazem vseh <b>%{count}</b> stvari"
+      more_pages:
+        display_entries: "Kazem stvari <b>%{first} - %{last}</b> od <b>%{total}</b>"

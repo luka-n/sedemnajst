@@ -1,26 +1,46 @@
-<%= paginate @users %>
+<div class="row <%= 'mb-3' unless @users.total_pages > 1 %>">
+  <div class="col">
+    <%= page_entries_info @users %>
+  </div>
+  <div class="col">
+    <%= paginate @users %>
+  </div>
+  <div class="col">
+  </div>
+</div>
 
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th><%= sortable "name", "Kognomen" %></th>
-      <th><%= sortable "posts_count", "Postov" %></th>
-      <th><%= sortable "topics_count", "Tem" %></th>
-      <th><%= sortable "messages_count", "IG vrstic" %></th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <% @users.each do |user| %>
+<%= search_form_for @q do |f| %>
+  <table class="table table-bordered table-striped">
+    <thead>
       <tr>
-        <td class="align-middle text-nowrap"><img src="<%= url_for(user.avatar.variant(:small)) if user.avatar.attached? %>"></td>
-        <td class="align-middle"><%= link_to user.name, user %></td>
-        <td class="align-middle text-nowrap"><%= user.posts_count %></td>
-        <td class="align-middle text-nowrap"><%= user.topics_count %></td>
-        <td class="align-middle text-nowrap"><%= user.messages_count %></td>
+        <th></th>
+        <th><%= sort_link @q, :name, "Kognomen" %></th>
+        <th><%= sort_link @q, :posts_count, "Postov" %></th>
+        <th><%= sort_link @q, :topics_count, "Tem" %></th>
+        <th><%= sort_link @q, :messages_count, "IG vrstic" %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody class="table-group-divider">
+      <% @users.each do |user| %>
+        <tr>
+          <td class="align-middle text-nowrap"><img src="<%= url_for(user.avatar.variant(:small)) if user.avatar.attached? %>"></td>
+          <td class="align-middle"><%= link_to user.name, user %></td>
+          <td class="align-middle text-nowrap"><%= user.posts_count %></td>
+          <td class="align-middle text-nowrap"><%= user.topics_count %></td>
+          <td class="align-middle text-nowrap"><%= user.messages_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
-<%= paginate @users %>
+<div class="row">
+  <div class="col">
+    <%= page_entries_info @users %>
+  </div>
+  <div class="col">
+    <%= paginate @users %>
+  </div>
+  <div class="col">
+  </div>
+</div>

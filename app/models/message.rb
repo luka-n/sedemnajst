@@ -22,4 +22,10 @@ class Message < ApplicationRecord
       UPDATE users SET messages_count = messages_count - 1 WHERE id = OLD.user_id;
     SQL
   end
+
+  class << self
+    def ransackable_attributes(*)
+      %w[remote_created_at user_id]
+    end
+  end
 end

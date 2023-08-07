@@ -1,25 +1,94 @@
-<%= paginate @messages %>
+<div class="row <%= 'mb-3' unless @messages.total_pages > 1 %>">
+  <div class="col">
+    <%= page_entries_info @messages %>
+  </div>
+  <div class="col">
+    <%= paginate @messages %>
+  </div>
+  <div class="col text-end">
+    <button class="btn btn-secondary"
+            data-bs-target="#messages-filter"
+            data-bs-toggle="collapse"
+            type="button">
+      Kazi filtre
+    </button>
+  </div>
+</div>
 
-<table class="table table-bordered table-sm table-striped">
-  <thead>
-    <tr>
-      <th>Kdo</th>
-      <th>Zakaj</th>
-      <th><%= sortable "remote_created_at", "Kdaj" %></th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <% @messages.each do |message| %>
+<%= search_form_for @q do |f| %>
+  <div class="collapse mb-3 row <%= 'show' if @q.conditions.any? %>" id="messages-filter">
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">
+          <i class="bi bi-calendar-date"></i>
+        </div>
+        <%= f.text_field :remote_created_at_in_date_range,
+              class: "drp-input form-control",
+              placeholder: "Omeji po casu" %>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="input-group">
+        <div class="input-group-text">@</div>
+        <%= f.select :user_id_in,
+           nil,
+           {},
+           {
+             class: "bs-select form-control",
+             data: {
+               "actions-box": true,
+               "none-selected-text": "Omeji po uporabniku",
+               "live-search": true
+             },
+             multiple: true
+           } do %>
+          <% User.order(:name).each do |user| %>
+            <%= tag.option user.name,
+                  data: {content: (user.avatar.attached? ? image_tag(user.avatar.variant(:tinier)) : "") + " " + user.name},
+               selected: f.object.user_id_in&.include?(user.id),
+               value: user.id
+            %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <%= f.submit "Pozeni filtre", class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-sm table-striped">
+    <thead>
       <tr>
-        <td class="align-middle text-nowrap">
-          <img src="<%= url_for(message.user.avatar.variant(:tiny)) if message.user.avatar.attached? %>">
-          <span class="fw-bold"><%= link_to message.user.name, message.user %></span>
-        </td>
-        <td class="align-middle"><%= message.content %></td>
-        <td class="align-middle text-muted text-nowrap"><%= format_time message.remote_created_at %></td>
+        <th>Kdo</th>
+        <th>Zakaj</th>
+        <th><%= sort_link @q, :remote_created_at, "Kdaj" %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody class="table-group-divider">
+      <% @messages.each do |message| %>
+        <tr>
+          <td class="align-middle text-nowrap">
+            <img src="<%= url_for(message.user.avatar.variant(:tiny)) if message.user.avatar.attached? %>">
+            <span class="fw-bold"><%= link_to message.user.name, message.user %></span>
+          </td>
+          <td class="align-middle"><%= message.content %></td>
+          <td class="align-middle text-muted text-nowrap"><%= format_time message.remote_created_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
-<%= paginate @messages %>
+<div class="row">
+  <div class="col">
+    <%= page_entries_info @messages %>
+  </div>
+  <div class="col">
+    <%= paginate @messages %>
+  </div>
+  <div class="col">
+  </div>
+</div>

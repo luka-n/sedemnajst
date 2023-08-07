@@ -25,4 +25,10 @@ class Topic < ApplicationRecord
       END IF;
     SQL
   end
+
+  class << self
+    def ransackable_attributes(*)
+      %w[last_post_remote_created_at posts_count remote_created_at title user_id]
+    end
+  end
 end

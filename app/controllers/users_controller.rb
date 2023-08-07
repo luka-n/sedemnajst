@@ -1,17 +1,9 @@
 class UsersController < ApplicationController
   def index
-    @sort_column =
-      %w[name posts_count topics_count messages_count]
-        .include?(params[:sort]) ?
-        params[:sort] : "name"
-
-    @sort_direction =
-      %w[asc desc].include?(params[:sort_direction]) ?
-        params[:sort_direction] : "asc"
-
+    @q = User.ransack(params[:q])
+    @q.sorts = "name asc" if @q.sorts.empty?
     @users =
-      User
-        .order("#{@sort_column} #{@sort_direction}")
+      @q.result(distinct: true)
         .page(params[:page]).per(30)
   end
 

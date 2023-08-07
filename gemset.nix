@@ -891,6 +891,17 @@
     };
     version = "13.0.6";
   };
+  ransack = {
+    dependencies = ["activerecord" "activesupport" "i18n"];
+    groups = ["default"];
+    platforms = [];
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "0cmzgk6dxbaf7m8pr9r8sy9r45841hzy6l2ln32dck4ml3dqpmzg";
+      type = "gem";
+    };
+    version = "4.0.0";
+  };
   regexp_parser = {
     groups = ["default" "development" "test"];
     platforms = [];

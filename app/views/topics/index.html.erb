@@ -1,36 +1,105 @@
-<%= paginate @topics %>
+<div class="row <%= 'mb-3' unless @topics.total_pages > 1 %>">
+  <div class="col">
+    <%= page_entries_info @topics %>
+  </div>
+  <div class="col">
+    <%= paginate @topics %>
+  </div>
+  <div class="col text-end">
+    <button class="btn btn-secondary"
+            data-bs-target="#topics-filter"
+            data-bs-toggle="collapse"
+            type="button">
+      Kazi filtre
+    </button>
+  </div>
+</div>
 
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th><%= sortable "remote_created_at", "Prvi" %></th>
-      <th><%= sortable "title", "Titula" %></th>
-      <th><%= sortable "posts_count", "Replik" %></th>
-      <th><%= sortable "last_post_remote_created_at", "Zadnji" %></th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <% @topics.each do |topic| %>
+<%= search_form_for @q do |f| %>
+  <div class="collapse mb-3 row <%= 'show' if @q.conditions.any? %>" id="topics-filter">
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">
+          <i class="bi bi-calendar-date"></i>
+        </div>
+        <%= f.text_field :remote_created_at_in_date_range,
+              class: "drp-input form-control",
+              placeholder: "Omeji po casu kreacije" %>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="input-group">
+        <div class="input-group-text">@</div>
+        <%= f.select :user_id_in,
+           nil,
+           {},
+           {
+             class: "bs-select form-control",
+             data: {
+               "actions-box": true,
+               "none-selected-text": "Omeji po stvarniku",
+               "live-search": true
+             },
+             multiple: true
+           } do %>
+          <% User.order(:name).each do |user| %>
+            <%= tag.option user.name,
+                  data: {content: (user.avatar.attached? ? image_tag(user.avatar.variant(:tinier)) : "") + " " + user.name},
+               selected: f.object.user_id_in&.include?(user.id),
+               value: user.id
+            %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <%= f.submit "Pozeni filtre", class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead>
       <tr>
-        <td class="align-middle text-nowrap">
-          <span class="fw-bold"><%= link_to topic.user.name, topic.user %></span>
-          <br>
-          <img src="<%= url_for(topic.user.avatar.variant(:small)) if topic.user.avatar.attached? %>">
-          <br>
-          <span class="text-muted"><%= format_time topic.remote_created_at %></span>
-        </td>
-        <td class="align-middle fw-bold"><%= link_to topic.title, topic %></td>
-        <td class="align-middle text-nowrap"><%= topic.posts_count %></td>
-        <td class="align-middle text-nowrap">
-          <span class="fw-bold"><%= link_to topic.last_post.user.name, topic.last_post.user %></span>
-          <br>
-          <img src="<%= url_for(topic.last_post.user.avatar.variant(:small)) if topic.last_post.user.avatar.attached? %>">
-          <br>
-          <span class="text-muted"><%= format_time topic.last_post.remote_created_at %></span>
-        </td>
+        <th><%= sort_link @q, :remote_created_at, "Prvi" %></th>
+        <th><%= sort_link @q, :title, "Titula" %></th>
+        <th><%= sort_link @q, :posts_count, "Replik" %></th>
+        <th><%= sort_link @q, :last_post_remote_created_at, "Zadnji" %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody class="table-group-divider">
+      <% @topics.each do |topic| %>
+        <tr>
+          <td class="align-middle text-nowrap">
+            <span class="fw-bold"><%= link_to topic.user.name, topic.user %></span>
+            <br>
+            <img src="<%= url_for(topic.user.avatar.variant(:small)) if topic.user.avatar.attached? %>">
+            <br>
+            <span class="text-muted"><%= format_time topic.remote_created_at %></span>
+          </td>
+          <td class="align-middle fw-bold"><%= link_to topic.title, topic %></td>
+          <td class="align-middle text-nowrap"><%= topic.posts_count %></td>
+          <td class="align-middle text-nowrap">
+            <span class="fw-bold"><%= link_to topic.last_post.user.name, topic.last_post.user %></span>
+            <br>
+            <img src="<%= url_for(topic.last_post.user.avatar.variant(:small)) if topic.last_post.user.avatar.attached? %>">
+            <br>
+            <span class="text-muted"><%= format_time topic.last_post.remote_created_at %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
-<%= paginate @topics %>
+<div class="row">
+  <div class="col">
+    <%= page_entries_info @topics %>
+  </div>
+  <div class="col">
+    <%= paginate @topics %>
+  </div>
+  <div class="col">
+  </div>
+</div>
