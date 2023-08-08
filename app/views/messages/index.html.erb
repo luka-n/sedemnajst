@@ -17,17 +17,6 @@
 
 <%= search_form_for @q do |f| %>
   <div class="collapse mb-3 row <%= 'show' if @q.conditions.any? %>" id="messages-filter">
-    <div class="col-auto">
-      <div class="input-group">
-        <div class="input-group-text">
-          <i class="bi bi-calendar-date"></i>
-        </div>
-        <%= f.text_field :remote_created_at_in_date_range,
-              class: "drp-input form-control",
-              placeholder: "Omeji po casu" %>
-      </div>
-    </div>
-
     <div class="col">
       <div class="input-group">
         <div class="input-group-text">@</div>
@@ -45,12 +34,23 @@
            } do %>
           <% User.order(:name).each do |user| %>
             <%= tag.option user.name,
-                  data: {content: (user.avatar.attached? ? image_tag(user.avatar.variant(:tinier)) : "") + " " + user.name},
+               data: {content: (user.avatar.attached? ? image_tag(user.avatar.variant(:tinier)) : "") + " " + user.name},
                selected: f.object.user_id_in&.include?(user.id),
                value: user.id
             %>
           <% end %>
         <% end %>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">
+          <i class="bi bi-calendar-date"></i>
+        </div>
+        <%= f.text_field :remote_created_at_in_date_range,
+              class: "drp-input form-control",
+              placeholder: "Omeji po casu" %>
       </div>
     </div>
 
