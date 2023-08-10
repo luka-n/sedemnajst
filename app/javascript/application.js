@@ -1,6 +1,5 @@
 // Entry point for the build script in your package.json
-import "@hotwired/turbo-rails";
-import "./controllers";
+import Rails from "@rails/ujs";
 
 import "./bootstrap";
 import "./jquery";
@@ -9,7 +8,9 @@ import "./moment";
 import "bootstrap-select";
 import "daterangepicker";
 
-$(document).on("turbo:load", function () {
+Rails.start();
+
+$(function () {
     $(".bs-select").selectpicker({
         deselectAllText: "Izberi nic",
         iconBase: "bi",

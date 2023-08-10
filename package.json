@@ -2,9 +2,8 @@
   "name": "app",
   "private": "true",
   "dependencies": {
-    "@hotwired/stimulus": "^3.2.1",
-    "@hotwired/turbo-rails": "^7.3.0",
     "@popperjs/core": "^2.11.6",
+    "@rails/ujs": "^7.0.7",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "bootstrap-select": "^1.14.0-beta3",

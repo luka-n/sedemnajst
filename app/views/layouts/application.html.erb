@@ -6,8 +6,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application", defer: true %>
   </head>
 
   <body>
@@ -40,7 +40,7 @@
           <ul class="navbar-nav mb-2 mb-lg-0">
             <% if current_user %>
               <li class="nav-item">
-                <%= link_to "Odjava", session_path, class: "nav-link", data: {turbo_method: :delete} %>
+                <%= link_to "Odjava", session_path, class: "nav-link", method: :delete %>
               </li>
             <% end %>
           </ul>

@@ -1069,17 +1069,6 @@
     };
     version = "3.4.2";
   };
-  stimulus-rails = {
-    dependencies = ["railties"];
-    groups = ["default"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "12hfdzh6cwahbd6p4r0r0d14n3laj3cqasx9w18wga9fq70bq6w3";
-      type = "gem";
-    };
-    version = "1.2.1";
-  };
   thor = {
     groups = ["default" "development"];
     platforms = [];
@@ -1099,17 +1088,6 @@
       type = "gem";
     };
     version = "0.4.0";
-  };
-  turbo-rails = {
-    dependencies = ["actionpack" "activejob" "railties"];
-    groups = ["default"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "0vm3iqgr3kxyyz5i09lhvfszp4pw1gw5j5rhhv1gmasv4kq2p3qh";
-      type = "gem";
-    };
-    version = "1.4.0";
   };
   tzinfo = {
     dependencies = ["concurrent-ruby"];
