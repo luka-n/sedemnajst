@@ -47,3 +47,21 @@ $table-border-color: $gray-600;
     @extend .form-select;
     display: inline-block;
 }
+
+.posts-search-table {
+    tr.topic td {
+        background-color: $yellow-1;
+    }
+
+    tr.post td {
+        background-color: $yellow-2;
+    }
+
+    .table-group-divider {
+        border-top: 1rem solid $table-group-separator-color;
+    }
+}
+
+.search-highlight {
+    @extend .bg-primary;
+}

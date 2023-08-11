@@ -1,6 +1,19 @@
 class Message < ApplicationRecord
+  include PgSearch::Model
+
   belongs_to :chatroom
   belongs_to :user
+
+  pg_search_scope :content_search,
+                  against: :content,
+                  using: {
+                    tsearch: {
+                      highlight: {
+                        StartSel: "<span class='search-highlight'>",
+                        StopSel: "</span>"
+                      }
+                    }
+                  }
 
   trigger.after(:insert) do
     <<-SQL
@@ -24,8 +37,16 @@ class Message < ApplicationRecord
   end
 
   class << self
+    def ransackable_associations(*)
+      %w[]
+    end
+
     def ransackable_attributes(*)
       %w[remote_created_at user_id]
+    end
+
+    def ransackable_scopes(*)
+      %w[content_search]
     end
   end
 end

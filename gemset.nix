@@ -742,6 +742,17 @@
     };
     version = "1.5.3";
   };
+  pg_search = {
+    dependencies = ["activerecord" "activesupport"];
+    groups = ["default"];
+    platforms = [];
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "18q0prwc6iwqb86agh2fwmfi07kf0bqi9qk96130c6fqf892lbv8";
+      type = "gem";
+    };
+    version = "2.3.6";
+  };
   pry = {
     dependencies = ["coderay" "method_source"];
     groups = ["default" "development"];

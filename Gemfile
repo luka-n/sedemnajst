@@ -54,6 +54,7 @@ gem "image_processing", "~> 1.2"
 gem "hairtrigger"
 gem "kaminari"
 gem "mechanize"
+gem "pg_search"
 gem "rails-i18n", "~> 7.0.0"
 gem "ransack"
 

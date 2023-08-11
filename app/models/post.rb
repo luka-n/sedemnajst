@@ -1,6 +1,19 @@
 class Post < ApplicationRecord
+  include PgSearch::Model
+
   belongs_to :topic
   belongs_to :user
+
+  pg_search_scope :content_search,
+                  against: :content,
+                  using: {
+                    tsearch: {
+                      highlight: {
+                        StartSel: "<span class='search-highlight'>",
+                        StopSel: "</span>"
+                      }
+                    }
+                  }
 
   trigger.after(:insert) do
     <<-SQL
@@ -42,5 +55,19 @@ class Post < ApplicationRecord
         WHERE id = OLD.topic_id;
       END IF;
     SQL
+  end
+
+  class << self
+    def ransackable_associations(*)
+      %w[]
+    end
+
+    def ransackable_attributes(*)
+      %w[remote_created_at user_id]
+    end
+
+    def ransackable_scopes(*)
+      %w[content_search]
+    end
   end
 end

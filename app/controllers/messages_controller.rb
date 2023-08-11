@@ -6,5 +6,8 @@ class MessagesController < ApplicationController
       @q.result(distinct: true)
         .preload(:user)
         .page(params[:page]).per(30)
+    if @messages.respond_to?(:with_pg_search_highlight)
+      @messages = @messages.with_pg_search_highlight
+    end
   end
 end

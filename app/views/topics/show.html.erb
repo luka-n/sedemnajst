@@ -5,7 +5,7 @@
 <table class="table table-bordered table-striped">
   <tbody>
     <% @posts.each do |post| %>
-      <tr>
+      <tr id="<%= dom_id(post) %>">
         <td class="text-nowrap">
           <span class="fw-bold"><%= link_to post.user.name, post.user %></span>
           <br>

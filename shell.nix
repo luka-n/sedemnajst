@@ -6,5 +6,5 @@ let
     gemdir = ./.;
   };
 in mkShell {
-  packages = [ gems gems.wrappedRuby nodejs yarn ];
+  packages = [ gems gems.wrappedRuby nodejs yarn vips libjpeg ];
 }

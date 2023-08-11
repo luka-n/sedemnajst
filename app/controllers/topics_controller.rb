@@ -6,6 +6,9 @@ class TopicsController < ApplicationController
       @q.result(distinct: true)
         .preload(:user, last_post: :user)
         .page(params[:page]).per(50)
+    if @topics.respond_to?(:with_pg_search_highlight)
+      @topics = @topics.with_pg_search_highlight
+    end
   end
 
   def show

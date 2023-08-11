@@ -16,7 +16,7 @@
 </div>
 
 <%= search_form_for @q do |f| %>
-  <div class="collapse mb-3 row <%= 'show' if @q.conditions.any? %>" id="messages-filter">
+  <div class="collapse mb-3 row <%= 'show' if params[:q] && params[:q].keys != ["s"] %>" id="messages-filter">
     <div class="col">
       <div class="input-group">
         <div class="input-group-text">@</div>
@@ -46,6 +46,17 @@
     <div class="col-auto">
       <div class="input-group">
         <div class="input-group-text">
+          <i class="bi bi-search"></i>
+        </div>
+        <%= f.text_field :content_search,
+              class: "form-control",
+              placeholder: "Isci po vsebini" %>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">
           <i class="bi bi-calendar-date"></i>
         </div>
         <%= f.text_field :remote_created_at_in_date_range,
@@ -55,7 +66,7 @@
     </div>
 
     <div class="col-auto">
-      <%= f.submit "Pozeni filtre", class: "btn btn-primary" %>
+      <%= f.submit "Pozeni!", class: "btn btn-primary" %>
     </div>
   </div>
 
@@ -74,7 +85,13 @@
             <img src="<%= url_for(message.user.avatar.variant(:tiny)) if message.user.avatar.attached? %>">
             <span class="fw-bold"><%= link_to message.user.name, message.user %></span>
           </td>
-          <td class="align-middle"><%= message.content %></td>
+          <td class="align-middle">
+            <% if message.respond_to?(:pg_search_highlight) %>
+              <%= highlight_pg_search(message) %>
+            <% else %>
+              <%= message.content.html_safe %>
+            <% end %>
+          </td>
           <td class="align-middle text-muted text-nowrap"><%= format_time message.remote_created_at %></td>
         </tr>
       <% end %>
