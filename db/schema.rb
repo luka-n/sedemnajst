@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_13_121723) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_13_191024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,7 +49,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_121723) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "remote_created_at", null: false
     t.index "to_tsvector('simple'::regconfig, COALESCE(content, ''::text))", name: "tsvector_index_activities_on_content", using: :gin
+    t.index ["remote_created_at"], name: "index_activities_on_remote_created_at"
     t.index ["source_type", "source_id"], name: "index_activities_on_source"
     t.index ["user_id"], name: "index_activities_on_user_id"
   end
@@ -217,8 +219,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_121723) do
       on("topics").
       after(:insert) do
     <<-SQL_ACTIONS
-      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
-        VALUES (NEW.title, 'Topic', NEW.id, NEW.user_id, now(), now());
+      INSERT INTO activities
+        (content, created_at, remote_created_at, source_id, source_type, updated_at, user_id)
+        VALUES
+        (NEW.title, now(), NEW.remote_created_at, NEW.id, 'Topic', now(), NEW.user_id);
 
       UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id;
     SQL_ACTIONS
@@ -228,8 +232,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_121723) do
       on("posts").
       after(:insert) do
     <<-SQL_ACTIONS
-      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
-        VALUES (NEW.content, 'Post', NEW.id, NEW.user_id, now(), now());
+      INSERT INTO activities
+        (content, created_at, remote_created_at, source_id, source_type, updated_at, user_id)
+        VALUES
+        (NEW.content, now(), NEW.remote_created_at, NEW.id, 'Post', now(), NEW.user_id);
 
       UPDATE topics SET posts_count = posts_count + 1 WHERE id = NEW.topic_id;
       UPDATE topics SET last_post_remote_created_at = NEW.remote_created_at,
@@ -243,8 +249,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_121723) do
       on("messages").
       after(:insert) do
     <<-SQL_ACTIONS
-      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
-        VALUES (NEW.content, 'Message', NEW.id, NEW.user_id, now(), now());
+      INSERT INTO activities
+        (content, created_at, remote_created_at, source_id, source_type, updated_at, user_id)
+        VALUES
+        (NEW.content, now(), NEW.remote_created_at, NEW.id, 'Message', now(), NEW.user_id);
+
       UPDATE users SET messages_count = messages_count + 1 WHERE id = NEW.user_id;
     SQL_ACTIONS
   end

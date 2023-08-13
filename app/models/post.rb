@@ -19,8 +19,10 @@ class Post < ApplicationRecord
 
   trigger.after(:insert) do
     <<-SQL
-      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
-        VALUES (NEW.content, 'Post', NEW.id, NEW.user_id, now(), now());
+      INSERT INTO activities
+        (content, created_at, remote_created_at, source_id, source_type, updated_at, user_id)
+        VALUES
+        (NEW.content, now(), NEW.remote_created_at, NEW.id, 'Post', now(), NEW.user_id);
 
       UPDATE topics SET posts_count = posts_count + 1 WHERE id = NEW.topic_id;
       UPDATE topics SET last_post_remote_created_at = NEW.remote_created_at,
