@@ -4,6 +4,8 @@ class Post < ApplicationRecord
   belongs_to :topic
   belongs_to :user
 
+  has_one :activity, as: :source
+
   pg_search_scope :content_search,
                   against: :content,
                   using: {
@@ -17,6 +19,9 @@ class Post < ApplicationRecord
 
   trigger.after(:insert) do
     <<-SQL
+      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
+        VALUES (NEW.content, 'Post', NEW.id, NEW.user_id, now(), now());
+
       UPDATE topics SET posts_count = posts_count + 1 WHERE id = NEW.topic_id;
       UPDATE topics SET last_post_remote_created_at = NEW.remote_created_at,
                         last_post_remote_id = NEW.remote_id

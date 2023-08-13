@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_11_034823) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_13_121723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_034823) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "activities", force: :cascade do |t|
+    t.text "content", null: false
+    t.string "source_type", null: false
+    t.bigint "source_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "to_tsvector('simple'::regconfig, COALESCE(content, ''::text))", name: "tsvector_index_activities_on_content", using: :gin
+    t.index ["source_type", "source_id"], name: "index_activities_on_source"
+    t.index ["user_id"], name: "index_activities_on_user_id"
   end
 
   create_table "chatrooms", force: :cascade do |t|
@@ -123,6 +135,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_034823) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activities", "users"
   add_foreign_key "messages", "chatrooms"
   add_foreign_key "messages", "users"
   add_foreign_key "posts", "topics"
@@ -130,12 +143,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_034823) do
   add_foreign_key "topics", "forums"
   add_foreign_key "topics", "posts", column: "last_post_remote_id", primary_key: "remote_id"
   add_foreign_key "topics", "users"
-  create_trigger("topics_after_insert_row_tr", :generated => true, :compatibility => 1).
-      on("topics").
-      after(:insert) do
-    "UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id;"
-  end
-
   create_trigger("topics_after_delete_row_tr", :generated => true, :compatibility => 1).
       on("topics").
       after(:delete) do
@@ -150,18 +157,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_034823) do
         UPDATE users SET topics_count = topics_count - 1 WHERE id = OLD.user_id;
         UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id;
       END IF;
-    SQL_ACTIONS
-  end
-
-  create_trigger("posts_after_insert_row_tr", :generated => true, :compatibility => 1).
-      on("posts").
-      after(:insert) do
-    <<-SQL_ACTIONS
-      UPDATE topics SET posts_count = posts_count + 1 WHERE id = NEW.topic_id;
-      UPDATE topics SET last_post_remote_created_at = NEW.remote_created_at,
-                        last_post_remote_id = NEW.remote_id
-      WHERE id = NEW.topic_id;
-      UPDATE users SET posts_count = posts_count + 1 WHERE id = NEW.user_id;
     SQL_ACTIONS
   end
 
@@ -201,12 +196,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_034823) do
     SQL_ACTIONS
   end
 
-  create_trigger("messages_after_insert_row_tr", :generated => true, :compatibility => 1).
-      on("messages").
-      after(:insert) do
-    "      UPDATE users SET messages_count = messages_count + 1 WHERE id = NEW.user_id;"
-  end
-
   create_trigger("messages_after_update_row_tr", :generated => true, :compatibility => 1).
       on("messages").
       after(:update) do
@@ -222,6 +211,42 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_034823) do
       on("messages").
       after(:delete) do
     "      UPDATE users SET messages_count = messages_count - 1 WHERE id = OLD.user_id;"
+  end
+
+  create_trigger("topics_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("topics").
+      after(:insert) do
+    <<-SQL_ACTIONS
+      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
+        VALUES (NEW.title, 'Topic', NEW.id, NEW.user_id, now(), now());
+
+      UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id;
+    SQL_ACTIONS
+  end
+
+  create_trigger("posts_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("posts").
+      after(:insert) do
+    <<-SQL_ACTIONS
+      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
+        VALUES (NEW.content, 'Post', NEW.id, NEW.user_id, now(), now());
+
+      UPDATE topics SET posts_count = posts_count + 1 WHERE id = NEW.topic_id;
+      UPDATE topics SET last_post_remote_created_at = NEW.remote_created_at,
+                        last_post_remote_id = NEW.remote_id
+      WHERE id = NEW.topic_id;
+      UPDATE users SET posts_count = posts_count + 1 WHERE id = NEW.user_id;
+    SQL_ACTIONS
+  end
+
+  create_trigger("messages_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("messages").
+      after(:insert) do
+    <<-SQL_ACTIONS
+      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
+        VALUES (NEW.content, 'Message', NEW.id, NEW.user_id, now(), now());
+      UPDATE users SET messages_count = messages_count + 1 WHERE id = NEW.user_id;
+    SQL_ACTIONS
   end
 
 end

@@ -4,6 +4,8 @@ class Topic < ApplicationRecord
   belongs_to :forum
   belongs_to :user
 
+  has_one :activity, as: :source
+
   has_many :posts
 
   has_one :last_post,
@@ -23,7 +25,12 @@ class Topic < ApplicationRecord
                   }
 
   trigger.after(:insert) do
-    "UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id"
+    <<-SQL
+      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
+        VALUES (NEW.title, 'Topic', NEW.id, NEW.user_id, now(), now());
+
+      UPDATE users SET topics_count = topics_count + 1 WHERE id = NEW.user_id;
+    SQL
   end
 
   trigger.after(:delete) do

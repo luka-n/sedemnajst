@@ -4,6 +4,8 @@ class Message < ApplicationRecord
   belongs_to :chatroom
   belongs_to :user
 
+  has_one :activity, as: :source
+
   pg_search_scope :content_search,
                   against: :content,
                   using: {
@@ -17,6 +19,8 @@ class Message < ApplicationRecord
 
   trigger.after(:insert) do
     <<-SQL
+      INSERT INTO activities (content, source_type, source_id, user_id, created_at, updated_at)
+        VALUES (NEW.content, 'Message', NEW.id, NEW.user_id, now(), now());
       UPDATE users SET messages_count = messages_count + 1 WHERE id = NEW.user_id;
     SQL
   end
