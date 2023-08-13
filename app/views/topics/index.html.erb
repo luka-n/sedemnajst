@@ -96,7 +96,7 @@
               <%= link_to topic.title.html_safe, topic %>
             <% end %>
           </td>
-          <td class="align-middle text-nowrap"><%= topic.posts_count %></td>
+          <td class="align-middle text-nowrap"><%= topic.posts_count - 1 %></td>
           <td class="align-middle text-nowrap">
             <span class="fw-bold"><%= link_to topic.last_post.user.name, topic.last_post.user %></span>
             <br>
