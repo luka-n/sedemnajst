@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_one_attached :avatar do |attachable|
-    attachable.variant :large, resize_to_fill: [100, 100]
+    attachable.variant :large, resize_to_fill: [80, 80]
     attachable.variant :small, resize_to_fill: [50, 50]
     attachable.variant :tiny, resize_to_fill: [25, 25]
     attachable.variant :tinier, resize_to_fill: [20, 20]
