@@ -57,6 +57,9 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li>
+                    <%= link_to "Profil", user_path(current_user), class: "dropdown-item" %>
+                  </li>
+                  <li>
                     <%= link_to "Odjava", session_path, class: "dropdown-item", method: :delete %>
                   </li>
                 </ul>
