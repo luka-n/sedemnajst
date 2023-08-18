@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Authentication
 
-  before_action :initialize_posts_q
+  before_action :initialize_activities_q
 
   # bootstrap alert types
   add_flash_types :primary,
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def initialize_posts_q
-    @posts_q = Post.ransack
+  def initialize_activities_q
+    @activities_q = Activity.ransack
   end
 end

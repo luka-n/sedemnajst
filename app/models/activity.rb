@@ -14,4 +14,18 @@ class Activity < ApplicationRecord
                       }
                     }
                   }
+
+  class << self
+    def ransackable_associations(*)
+      %w[]
+    end
+
+    def ransackable_attributes(*)
+      %w[content remote_created_at source_type user_id]
+    end
+
+    def ransackable_scopes(*)
+      %w[content_search]
+    end
+  end
 end

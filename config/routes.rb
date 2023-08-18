@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post "session", to: "sessions#create"
   delete "session", to: "sessions#destroy"
 
+  resources :activities
   resources :messages
   resources :posts
   resources :topics

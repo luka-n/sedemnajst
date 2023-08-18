@@ -1,0 +1,156 @@
+<div class="row <%= 'mb-3' unless activities.total_pages > 1 %>">
+  <div class="col">
+    <%= page_entries_info activities %>
+  </div>
+  <div class="col">
+    <%= paginate activities %>
+  </div>
+  <div class="col text-end">
+    <button class="btn btn-secondary"
+            data-bs-target="#activities-filter"
+            data-bs-toggle="collapse"
+            type="button">
+      Kazi filtre
+    </button>
+  </div>
+</div>
+
+<%= search_form_for q, url: search_form_url do |f| %>
+  <div class="collapse mb-3 row <%= 'show' if show_filters_for?(Activity) %>" id="activities-filter">
+    <% unless ignore_user %>
+      <div class="col">
+        <div class="input-group">
+          <div class="input-group-text">@</div>
+          <%= f.hidden_field :content_search %>
+          <%= f.select :user_id_in,
+                  nil,
+                  {},
+             {
+               class: "bs-select form-control",
+               data: {
+                 "actions-box": true,
+                 "none-selected-text": "Omeji po uporabniku",
+                 "live-search": true
+               },
+               multiple: true
+             } do %>
+            <% User.order(:name).each do |user| %>
+              <%= tag.option user.name,
+                 data: {content: (user.avatar.attached? ? image_tag(user.avatar.variant(:tinier)) : "") + " " + user.name},
+                 selected: f.object.user_id_in&.include?(user.id),
+                 value: user.id
+              %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">
+          <i class="bi bi-question"></i>
+        </div>
+        <%= f.select :source_type_in,
+           [["IG", "Message"], ["Post", "Post"], ["Tema", "Topic"]],
+           {},
+           {
+             class: "bs-select form-control",
+             data: {
+               "none-selected-text": "Omeji po stvari",
+             },
+             multiple: true
+           } %>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">
+          <i class="bi bi-calendar-date"></i>
+        </div>
+        <%= f.text_field :remote_created_at_in_date_range,
+              class: "drp-input form-control",
+              placeholder: "Omeji po casu" %>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <%= f.submit "Pozeni!", class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <% unless ignore_user %>
+          <th>Kdo</th>
+        <% end %>
+        <th>Kaj</th>
+        <th>Zakaj</th>
+        <th><%= sort_link q, :remote_created_at, "Kdaj" %></th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <% activities.each do |activity| %>
+        <tr>
+          <% unless ignore_user %>
+            <td class="text-nowrap">
+              <img src="<%= url_for(activity.user.avatar.variant(:tiny)) if activity.user.avatar.attached? %>">
+              <span class="fw-bold"><%= link_to activity.user.name, activity.user %></span>
+            </td>
+          <% end %>
+          <td>
+            <% if activity.source.is_a?(Message) %>
+              <span class="badge text-bg-info text-centre">IG</span>
+            <% elsif activity.source.is_a?(Post) %>
+              <span class="badge text-bg-warning text-centre">Post</span>
+            <% elsif activity.source.is_a?(Topic) %>
+              <span class="badge text-bg-success text-centre">Tema</span>
+            <% end %>
+          </td>
+          <td>
+            <% if activity.source.is_a?(Message) %>
+              <% if activity.respond_to?(:pg_search_highlight) %>
+                <%= highlight_pg_search(activity) %>
+              <% else %>
+                <%= activity.content.html_safe %>
+              <% end %>
+            <% elsif activity.source.is_a?(Post) %>
+              <div class="mb-3">
+                <i class="text-muted">Odgovarjal v temi:</i>
+                <%= link_to activity.source.topic.title.html_safe, activity.source.topic, class: "fw-bold" %>
+              </div>
+              <% if activity.respond_to?(:pg_search_highlight) %>
+                <%= highlight_pg_search(activity) %>
+              <% else %>
+                <%= truncate(sanitize_post(activity)).html_safe %>
+              <% end %>
+            <% elsif activity.source.is_a?(Topic) %>
+              <i class="text-muted">Odprl temo:</i>
+              <% if activity.respond_to?(:pg_search_highlight) %>
+                <%= link_to highlight_pg_search(activity), activity.source, class: "fw-bold" %>
+              <% else %>
+                <%= link_to activity.content.html_safe, activity.source, class: "fw-bold" %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to format_time(activity.remote_created_at), activity.source, class: "text-muted" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<div class="row">
+  <div class="col">
+    <%= page_entries_info activities %>
+  </div>
+  <div class="col">
+    <%= paginate activities %>
+  </div>
+  <div class="col">
+  </div>
+</div>

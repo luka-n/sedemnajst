@@ -1,22 +1,25 @@
-<h1><%= @user.name %></h1>
-
-<img src="<%= url_for(@user.avatar.variant(:large)) if @user.avatar.attached? %>">
-
-<dl>
-  <dt>Postov</dt>
-  <dd><%= @user.posts_count %></dd>
-  <dt>Tem</dt>
-  <dd><%= @user.topics_count %></dd>
-  <dt>IG vrstic</dt>
-  <dd><%= @user.messages_count %></dd>
-</dl>
-
-<h2>Teme</h2>
-
-<ul>
-  <% @topics.each do |topic| %>
-    <li><%= link_to topic.title, topic %></li>
-  <% end %>
-</ul>
-
-<%= paginate @topics %>
+<div class="row">
+  <div class="col-3">
+    <h1>
+      <img src="<%= url_for(@user.avatar.variant(:large)) if @user.avatar.attached? %>">
+      <%= @user.name %>
+    </h1>
+    <dl>
+      <dt>IG vrstic</dt>
+      <dd><%= @user.messages_count %></dd>
+      <dt>Postov</dt>
+      <dd><%= @user.posts_count %></dd>
+      <dt>Tem</dt>
+      <dd><%= @user.topics_count %></dd>
+    </dl>
+  </div>
+  <div class="col-9">
+    <%=
+      render "activities/activities",
+       activities: @activities,
+       ignore_user: true,
+       q: @q,
+       search_form_url: user_path(@user)
+    %>
+  </div>
+</div>

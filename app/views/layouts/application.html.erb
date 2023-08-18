@@ -27,6 +27,9 @@
           <% if current_user %>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
+                <a class="nav-link" href="<%= activities_path %>">Aktivnosti</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="<%= topics_path %>">Gnoj</a>
               </li>
               <li class="nav-item">
@@ -37,14 +40,14 @@
               </li>
             </ul>
 
-            <%= search_form_for @posts_q, class: "d-flex me-3" do |f| %>
+            <%= search_form_for @activities_q, class: "d-flex me-3" do |f| %>
               <div class="input-group">
                 <div class="input-group-text">
                   <i class="bi bi-search"></i>
                 </div>
                 <%= f.text_field :content_search,
                       class: "form-control me-2",
-                      placeholder: "Isci po temah" %>
+                      placeholder: "Isci po aktivnostih" %>
               </div>
               <button class="btn btn-outline-primary" type="submit">Pozeni!</button>
             <% end %>

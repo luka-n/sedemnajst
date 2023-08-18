@@ -80,7 +80,7 @@
     </thead>
     <tbody class="table-group-divider">
       <% @messages.each do |message| %>
-        <tr>
+        <tr id="<%= dom_id(message) %>">
           <td class="align-middle text-nowrap">
             <img src="<%= url_for(message.user.avatar.variant(:tiny)) if message.user.avatar.attached? %>">
             <span class="fw-bold"><%= link_to message.user.name, message.user %></span>
@@ -92,7 +92,7 @@
               <%= message.content.html_safe %>
             <% end %>
           </td>
-          <td class="align-middle text-muted text-nowrap"><%= format_time message.remote_created_at %></td>
+          <td class="align-middle text-nowrap"><%= link_to format_time(message.remote_created_at), message, class: "text-muted" %></td>
         </tr>
       <% end %>
     </tbody>

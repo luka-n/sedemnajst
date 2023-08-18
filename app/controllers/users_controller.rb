@@ -10,9 +10,14 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    @topics =
-      @user.topics
-        .order(:remote_created_at)
-        .page(params[:page]).per(10)
+    @q = @user.activities.ransack(params[:q])
+    @q.sorts = "remote_created_at desc" if @q.sorts.empty?
+    @activities =
+      @q.result(distinct: true)
+        .preload(:source)
+        .page(params[:page]).per(30)
+    if @activities.respond_to?(:with_pg_search_highlight)
+      @activities = @activities.with_pg_search_highlight
+    end
   end
 end
