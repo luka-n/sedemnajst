@@ -44,7 +44,8 @@ $(function () {
             "Zadnjih 30 dni": [moment().subtract(29, "days"), moment()],
             "Ta mesec": [moment().startOf("month"), moment().endOf("month")],
             "Prejsnji mesec": [moment().subtract(1, "month").startOf("month"),
-                               moment().subtract(1, "month").endOf("month")]
+                               moment().subtract(1, "month").endOf("month")],
+            "Vekomaj": [moment(0), moment()]
         }
     })
         .on("apply.daterangepicker", function(ev, picker) {
