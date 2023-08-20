@@ -16,19 +16,18 @@
   <div class="col-9">
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
-        <a class="nav-link active" href="<%= user_path(@user) %>">Aktivnosti</a>
+        <a class="nav-link" href="<%= user_path(@user) %>">Aktivnosti</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%= user_stats_path(@user) %>">Statsi</a>
+        <a class="nav-link active" href="<%= user_stats_path(@user) %>">Statsi</a>
       </li>
     </ul>
 
     <%=
-      render "activities/activities",
-       activities: @activities,
-       ignore_user: true,
-       q: @q,
-       search_form_url: user_path(@user)
+      render "stats/stats",
+        data_by_source_type: @data_by_source_type,
+        q: @q,
+        search_form_url: user_stats_path(@user)
     %>
   </div>
 </div>

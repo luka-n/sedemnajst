@@ -30,4 +30,12 @@ module ApplicationHelper
       params[:q] && (params[:q].keys - %w[s]).any?
     end
   end
+
+  def source_type_to_name(source_type)
+    {
+      "Message" => "IG",
+      "Post" => "Post",
+      "Topic" => "Tema"
+    }[source_type]
+  end
 end

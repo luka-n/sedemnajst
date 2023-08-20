@@ -193,6 +193,16 @@
     };
     version = "3.39.2";
   };
+  chartkick = {
+    groups = ["default"];
+    platforms = [];
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "0k5ypggj1pmbgbkww4xqswkgp8mihbz3lp0alr1b4r4d0580f2fk";
+      type = "gem";
+    };
+    version = "5.0.3";
+  };
   coderay = {
     groups = ["default" "development"];
     platforms = [];
@@ -324,6 +334,17 @@
       type = "gem";
     };
     version = "1.1.0";
+  };
+  groupdate = {
+    dependencies = ["activesupport"];
+    groups = ["default"];
+    platforms = [];
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "1c6qvm609n8xkyhzrsr0zls3w66m9za8bfqbfzzjxhk9l0m99hyr";
+      type = "gem";
+    };
+    version = "6.3.0";
   };
   hairtrigger = {
     dependencies = ["activerecord" "ruby2ruby" "ruby_parser"];

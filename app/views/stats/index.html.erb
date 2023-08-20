@@ -1,0 +1,8 @@
+<h1>Statsi</h1>
+
+<%=
+  render "stats",
+    data_by_source_type: @data_by_source_type,
+    q: @q,
+    search_form_url: stats_path
+%>

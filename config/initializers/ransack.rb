@@ -8,7 +8,7 @@ Ransack.configure do |config|
   config.add_predicate(
     "in_date_range",
     arel_predicate: "between",
-    formatter: proc { |v| Range.new(*v.split(" - ").map { |s| Time.zone.parse(s) }) },
+    formatter: proc { |v| a, b = v.split(" - "); Range.new(Time.zone.parse(a), Time.zone.parse(b).end_of_day) },
     type: :string,
     validator: proc { |v| v =~ /^\d{2}\.\d{2}\.\d{4} - \d{2}\.\d{2}\.\d{4}$/ }
   )

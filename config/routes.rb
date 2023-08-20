@@ -6,8 +6,11 @@ Rails.application.routes.draw do
   resources :activities
   resources :messages
   resources :posts
+  resources :stats
   resources :topics
-  resources :users
+  resources :users do
+    get :stats
+  end
 
   root "topics#index"
 end

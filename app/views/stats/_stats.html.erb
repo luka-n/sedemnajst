@@ -1,0 +1,69 @@
+<%= search_form_for q, url: search_form_url do |f| %>
+  <div class="collapse mb-3 row show" id="messages-filter">
+    <div class="col">
+      <div class="input-group">
+        <div class="input-group-text">
+          <i class="bi bi-calendar-date"></i>
+        </div>
+        <%= f.text_field :remote_created_at_in_date_range,
+              class: "drp-input form-control",
+              placeholder: "Omeji po casu" %>
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <%= f.submit "Filtriraj!", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<h2>Splosna aktivnost po uri</h2>
+
+<%=
+  line_chart data_by_source_type.map { |source_type, data|
+    {name: source_type_to_name(source_type), data: data.group_by_hour(:remote_created_at).count}
+  },
+   library: {
+     chart: {
+       zoomType: "x"
+     },
+     xAxis: {
+       type: "datetime"
+     },
+     colors: [
+       "#0dcaf0",
+       "#ffc107",
+       "#198754"
+     ]
+   }
+%>
+
+<h2>Aktivnosti po uri v dnevu</h2>
+
+<%=
+  column_chart data_by_source_type.map { |source_type, data|
+    {name: source_type_to_name(source_type), data: data.group_by_hour_of_day(:remote_created_at).count}
+  },
+   library: {
+     colors: [
+       "#0dcaf0",
+       "#ffc107",
+       "#198754"
+     ]
+   }
+%>
+
+<h2>Aktivnosti po dnevu v tednu</h2>
+
+<%=
+  column_chart data_by_source_type.map { |source_type, data|
+    {name: source_type_to_name(source_type), data: data.group_by_day_of_week(:remote_created_at, format: "%a", week_start: :monday).count}
+  },
+   library: {
+     colors: [
+       "#0dcaf0",
+       "#ffc107",
+       "#198754"
+     ]
+   }
+%>

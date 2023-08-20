@@ -2,10 +2,12 @@
 import Rails from "@rails/ujs";
 
 import "./bootstrap";
+import "./highcharts";
 import "./jquery";
 import "./moment";
 
 import "bootstrap-select";
+import "chartkick";
 import "daterangepicker";
 
 Rails.start();
